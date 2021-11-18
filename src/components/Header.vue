@@ -1,8 +1,19 @@
 <template>
-  <div class="flex justify-between items-center px-8 py-4">
+  <Modals
+    :open="isOpen"
+    :openAndClose="openAndClose"
+    :data="data"
+    :reloadData="reloadData"
+  />
+  <div class="flex flex-col sm:flex-row justify-between items-center px-8 py-4">
     <img :src="img.logo" alt="logo" class="w-24" />
-    <div class="flex space-x-3 items-center">
-      <div class="bg-bluemidtheme p-3 rounded-full">
+    <div
+      class="w-full flex space-x-3 items-center justify-between sm:justify-end"
+    >
+      <div
+        class="bg-bluemidtheme p-3 rounded-full cursor-pointer"
+        @click="openAndClose"
+      >
         <!-- <?xml version="1.0" encoding="UTF-8"?> -->
         <svg
           class="w-12"
@@ -79,17 +90,31 @@
 </template>
 
 <script>
+import Modals from "./Modals.vue";
 const logo = require("../assets/image/logo.svg");
 
 export default {
   name: "Header",
-  components: {},
+  props: {
+    data: Object,
+    fetchStorage: Function,
+  },
+  components: { Modals },
   data() {
     return {
       img: {
         logo: logo,
       },
+      isOpen: false,
     };
+  },
+  methods: {
+    openAndClose() {
+      this.isOpen = !this.isOpen;
+    },
+    reloadData() {
+      this.fetchStorage();
+    },
   },
 };
 </script>

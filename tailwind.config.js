@@ -10,6 +10,10 @@ module.exports = {
         'greytheme': "#365673",
         'bluelighttheme': "#98A0A6",
       },
+      fontFamily: {
+        'primary-font' : ['Playfair Display'],
+        'secondary-font' : ['Playfair Display']
+      }
     },
   },
   variants: {
