@@ -1,6 +1,7 @@
 {
-  "name": "note",
-  "version": "0.1.0",
+  "name": "Note",
+  "version": "1.0.0",
+  "productName": "Note",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

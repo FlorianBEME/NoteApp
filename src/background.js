@@ -14,8 +14,10 @@ async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
     minHeight: 600,
+    name: "Note",
     minWidth: 800,
     width: 800,
+    icon: __dirname + "/assets/image/favicon.ico",
     height: 600,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
