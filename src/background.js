@@ -3,7 +3,6 @@
 import { app, protocol, BrowserWindow } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
-const path = require("path");
 const isDevelopment = process.env.NODE_ENV !== "production";
 
 require("update-electron-app")({
@@ -16,9 +15,6 @@ protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
 ]);
 
-const icoPath = process.cwd();
-console.log(path.join(icoPath, "/logo.ico"));
-
 async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
@@ -26,7 +22,6 @@ async function createWindow() {
     name: "Note",
     minWidth: 800,
     width: 800,
-    icon: path.join(icoPath, "/logo.ico"),
     height: 600,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
@@ -35,6 +30,21 @@ async function createWindow() {
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
     },
   });
+
+  // var menu = Menu.buildFromTemplate([
+  //   {
+  //     label: "Menu",
+  //     submenu: [
+  //       {
+  //         label: "Exit",
+  //         click() {
+  //           app.quit();
+  //         },
+  //       },
+  //     ],
+  //   },
+  // ]);
+  // Menu.setApplicationMenu(menu);
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
