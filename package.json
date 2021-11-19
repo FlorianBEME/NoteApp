@@ -8,7 +8,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "electron:build": "vue-cli-service electron:build",
-    "test": "vue-cli-service  electron:build -w",
+    "build:multi": "vue-cli-service  electron:build -mwl",
+    "build:win": "vue-cli-service  electron:build -w",
     "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
@@ -19,6 +20,7 @@
     "core-js": "^3.6.5",
     "electron-localstorage": "^1.0.5",
     "electron-storage": "^1.0.7",
+    "update-electron-app": "^2.0.1",
     "uuid": "^8.3.2",
     "vue": "^3.0.0"
   },

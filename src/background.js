@@ -3,12 +3,21 @@
 import { app, protocol, BrowserWindow } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
+const path = require("path");
 const isDevelopment = process.env.NODE_ENV !== "production";
+
+require("update-electron-app")({
+  repo: "github-FlorianBEME/NoteApp",
+  updateInterval: "1 hour",
+});
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
 ]);
+
+const icoPath = process.cwd();
+console.log(path.join(icoPath, "/logo.ico"));
 
 async function createWindow() {
   // Create the browser window.
@@ -17,7 +26,7 @@ async function createWindow() {
     name: "Note",
     minWidth: 800,
     width: 800,
-    icon: __dirname + "/assets/image/favicon.ico",
+    icon: path.join(icoPath, "/logo.ico"),
     height: 600,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
