@@ -14,18 +14,16 @@
           sm:block sm:p-0
         "
       >
-        <TransitionChild
+        <!-- <TransitionChild
           enter="ease-out duration-300"
           enter-from="opacity-0"
           enter-to="opacity-100"
           leave="ease-in duration-200"
           leave-from="opacity-100"
           leave-to="opacity-0"
-        >
-          <DialogOverlay
-            class="fixed inset-0 bg-opacity-75 transition-opacity"
-          />
-        </TransitionChild>
+        > -->
+        <DialogOverlay class="fixed inset-0 bg-opacity-75 transition-opacity" />
+        <!-- </TransitionChild> -->
 
         <!-- This element is to trick the browser into centering the modal contents. -->
         <!-- <span
@@ -143,7 +141,7 @@
                         <button
                           required
                           type="button"
-                          @click="openAndClose"
+                          @click="this.$emit('closemodal')"
                           class="
                             inline-flex
                             justify-center
@@ -198,25 +196,24 @@ import {
   Dialog,
   DialogOverlay,
   DialogTitle,
-  TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
 
-const fs = require("fs");
-import { v4 as uuidv4 } from "uuid";
+// const fs = require("fs");
+// import { v4 as uuidv4 } from "uuid";
 export default {
   name: "Modals",
   components: {
     Dialog,
     DialogOverlay,
     DialogTitle,
-    TransitionChild,
+
     TransitionRoot,
   },
   props: {
     open: Boolean,
     reloadData: Function,
-    data: Object,
+    // data: Object,
     openAndClose: Function,
   },
   data() {
@@ -226,30 +223,30 @@ export default {
   },
   methods: {
     addNewNote() {
-      if (this.data.save) {
-        if (this.newNote.title.length > 0 && this.newNote.text.length > 0) {
-          this.newNote.uuid = uuidv4();
-          fs.readFile("./src/data.json", "utf8", (err) => {
-            if (err) {
-              console.error(err);
-              return;
-            }
-            let dataInJSON = { ...this.data };
-            dataInJSON.save.push(this.newNote);
-            const dataConvertedJSON = JSON.stringify(dataInJSON);
-            fs.writeFileSync("./src/data.json", dataConvertedJSON, (err) => {
-              if (err) {
-                console.log(err);
-                return;
-              } else {
-                this.reloadData();
-              }
-            });
-            this.newNote = { title: "", text: "", tags: [], uuid: null };
-            this.openAndClose();
-          });
-        }
-      }
+      // if (this.data.save) {
+      //   if (this.newNote.title.length > 0 && this.newNote.text.length > 0) {
+      //     this.newNote.uuid = uuidv4();
+      //     fs.readFile("./src/data.json", "utf8", (err) => {
+      //       if (err) {
+      //         console.error(err);
+      //         return;
+      //       }
+      //       let dataInJSON = { ...this.data };
+      //       dataInJSON.save.push(this.newNote);
+      //       const dataConvertedJSON = JSON.stringify(dataInJSON);
+      //       fs.writeFileSync("./src/data.json", dataConvertedJSON, (err) => {
+      //         if (err) {
+      //           console.log(err);
+      //           return;
+      //         } else {
+      //           this.reloadData();
+      //         }
+      //       });
+      //       this.newNote = { title: "", text: "", tags: [], uuid: null };
+      //       this.openAndClose();
+      //     });
+      //   }
+      // }
     },
   },
 };

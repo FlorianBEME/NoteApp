@@ -1,6 +1,15 @@
 <template>
+  <Modals
+    :open="isOpen"
+    v-on:closemodal="openAndClose()"
+    :reloadData="fetchStorage"
+  />
   <div class="fond min-h-screen">
-    <Header :data="dataInCurrent" :fetchStorage="fetchStorage" />
+    <Header
+      :data="dataInCurrent"
+      :fetchStorage="fetchStorage"
+      v-on:openmodal="openAndClose()"
+    />
     <div class="max-w-2xl mx-auto py-8 px-4 sm:px-6 lg:max-w-full lg:px-8">
       <div
         class="
@@ -15,7 +24,7 @@
           :key="item.uuid"
           :item="item"
           :data="dataInCurrent"
-          :fetchStorage="fetchStorage()"
+          :fetchStorage="fetchStorage"
         />
       </div>
     </div>
@@ -24,7 +33,10 @@
 
 <script>
 import Cards from "./components/Cards.vue";
+import Modals from "./components/Modals.vue";
+
 const fs = require("fs");
+import { existsSync } from "fs";
 
 import Header from "./components/Header.vue";
 
@@ -33,11 +45,13 @@ export default {
   components: {
     Header,
     Cards,
+    Modals,
   },
-
   data() {
     return {
       dataInCurrent: {},
+      isOpen: false,
+      dataIsUpdate: false,
     };
   },
   computed: {
@@ -52,21 +66,53 @@ export default {
     this.fetchStorage();
   },
   methods: {
+    openAndClose() {
+      this.isOpen = !this.isOpen;
+    },
     fetchStorage() {
-      fs.readFile("../data.json", "utf8", (err) => {
-        if (err) {
-          console.error(err);
-          console.log("création d'un fichier");
-          const template = JSON.stringify({ save: [{}] });
-          fs.appendFile("data.json", template, function (err) {
-            if (err);
+      console.log(this.dataInCurrent);
+      if (existsSync("data.json")) {
+        fs.readFile("./data.json", "utf8", (err, data) => {
+          if (err) {
+            console.err(err);
+          } else {
+            this.dataInCurrent = { ...JSON.parse(data) };
+          }
+        });
+      } else {
+        console.log("no");
+        const template = JSON.stringify({ save: [] });
+
+        fs.appendFile("data.json", template, function (err) {
+          if (err) {
+            console.error(err);
             return;
-          });
-        } else {
-          console.log("fichier existant");
-        }
-        // this.dataInCurrent = { ...JSON.parse(data) };
-      });
+          } else {
+            fs.readFile("./data.json", "utf8", (err, data) => {
+              if (err) {
+                console.err(err);
+              } else {
+                console.log(data);
+              }
+            });
+          }
+        });
+      }
+      // fs.readFile("../data.json", "utf8", (err) => {
+      //   if (err) {
+      //     existsSync
+      //     console.error(err);
+      //     console.log("création d'un fichier");
+      //     // const template = JSON.stringify({ save: [{}] });
+      //     // fs.appendFile("data.json", template, function (err) {
+      //     //   if (err);
+      //     //   return;
+      //     // });
+      //   } else {
+      //     console.log("fichier existant");
+      //   }
+      //   // this.dataInCurrent = { ...JSON.parse(data) };
+      // });
     },
   },
 };
