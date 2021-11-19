@@ -76,6 +76,7 @@
           id="search"
           type="text"
           class="h-10 rounded-xl"
+          v-on:input="setFilter"
           placeholder="Search..."
         />
       </div>
@@ -100,7 +101,11 @@ export default {
       },
     };
   },
-  methods: {},
+  methods: {
+    setFilter() {
+      this.$emit("changeFilter", event.target.value);
+    },
+  },
 };
 </script>
 <style>

@@ -1,16 +1,16 @@
 <template>
   <Modals
     :open="isOpen"
-    v-on:closemodal="openAndClose()"
-    :reloadData="fetchStorage"
+    v-on:closemodal="this.openAndClose"
+    :v-on:update="fetchStorage"
     :data="dataInCurrent"
     :path="path"
   />
   <div class="fond min-h-screen">
     <Header
       :data="dataInCurrent"
-      :fetchStorage="fetchStorage"
-      v-on:openmodal="openAndClose()"
+      v-on:openmodal="this.openAndClose"
+      v-on:changeFilter="changeFilter($event)"
     />
     <div class="max-w-2xl mx-auto py-8 px-4 sm:px-6 lg:max-w-full lg:px-8">
       <div
@@ -22,11 +22,12 @@
         "
       >
         <cards
-          v-for="item in dataInCurrent.save"
+          :path="this.path"
+          v-for="item in dataFiltering"
           :key="item.uuid"
           :item="item"
           :data="dataInCurrent"
-          :fetchStorage="fetchStorage"
+          v-on:update="fetchStorage"
         />
       </div>
     </div>
@@ -55,9 +56,24 @@ export default {
       isOpen: false,
       dataIsUpdate: false,
       path: process.cwd(),
+      filterExpr: "",
     };
   },
+  mounted() {
+    this.fetchStorage();
+  },
   computed: {
+    dataFiltering() {
+      if (this.filterExpr.length === 0) {
+        return this.dataInCurrent.save;
+      } else {
+        return this.dataInCurrent.save.filter(
+          (item) =>
+            item.title.includes(this.filterExpr) ||
+            item.tags.includes(this.filterExpr)
+        );
+      }
+    },
     isload() {
       return (
         this.dataInCurrent &&
@@ -65,11 +81,10 @@ export default {
       );
     },
   },
-  mounted() {
-    console.log(process.cwd(), "pathhhhhh");
-    this.fetchStorage();
-  },
   methods: {
+    changeFilter(data) {
+      this.filterExpr = data;
+    },
     openAndClose() {
       this.isOpen = !this.isOpen;
     },
@@ -100,7 +115,7 @@ export default {
       } else {
         console.log("Aucun fichier de data trouvé ");
         const template = JSON.stringify({ save: [] });
-        fs.appendFile(`${this.path}/data.json`, template, (err)=> {
+        fs.appendFile(`${this.path}/data.json`, template, (err) => {
           if (err) {
             console.error(err);
             return;

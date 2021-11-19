@@ -213,9 +213,7 @@ export default {
   },
   props: {
     open: Boolean,
-    reloadData: Function,
     data: Object,
-    openAndClose: Function,
     path: String,
   },
   data() {
@@ -237,16 +235,20 @@ export default {
             let dataInJSON = { ...this.data };
             dataInJSON.save.push(this.newNote);
             const dataConvertedJSON = JSON.stringify(dataInJSON);
-            fs.writeFileSync(`${this.path}/data.json`, dataConvertedJSON, (err) => {
-              if (err) {
-                console.log(err);
-                return;
-              } else {
-                this.reloadData();
+            fs.writeFileSync(
+              `${this.path}/data.json`,
+              dataConvertedJSON,
+              (err) => {
+                if (err) {
+                  console.log(err);
+                  return;
+                } else {
+                  this.$emit("update");
+                }
               }
-            });
+            );
             this.newNote = { title: "", text: "", tags: [], uuid: null };
-            this.openAndClose();
+            this.$emit("closemodal");
           });
         }
       } else {

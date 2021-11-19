@@ -46,32 +46,48 @@
 </template>
 <script>
 const fs = require("fs");
+
 export default {
   name: "Cards",
   props: {
     item: Object,
     data: Object,
-    fetchStorage: Function,
+    path: String,
   },
   methods: {
     deleteNote(uuid) {
-      fs.readFile("./src/data.json", "utf8", (err) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        let dataInJSON = { ...this.data };
-        dataInJSON.save = this.data.save.filter((note) => note.uuid !== uuid);
-        const JSONConverted = JSON.stringify(dataInJSON);
-        fs.writeFileSync("./src/data.json", JSONConverted, (err) => {
+      console.log(uuid);
+      new Promise((resolve, reject) => {
+        fs.readFile(`${this.path}/data.json`, "utf8", (err) => {
           if (err) {
-            console.log(err);
+            console.error(err);
+            reject();
             return;
-          } else {
-            this.fetchStorage();
           }
+          let dataInJSON = { ...this.data };
+          dataInJSON.save = this.data.save.filter((note) => note.uuid !== uuid);
+          console.log(dataInJSON.save);
+          console.log(dataInJSON);
+          resolve(dataInJSON);
         });
-      });
+      })
+        .then((data) => {
+          fs.writeFile(
+            `${this.path}/data.json`,
+            JSON.stringify(data),
+            (err) => {
+              console.log("test avant err");
+              if (err) {
+                console.log(err);
+                return;
+              } else {
+
+                this.$emit("update");
+              }
+            }
+          );
+        })
+        .catch((err) => console.log(err));
     },
   },
 };
