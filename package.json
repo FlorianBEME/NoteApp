@@ -1,7 +1,7 @@
 {
   "name": "Note",
   "version": "1.0.0",
-  "productName": "Note",
+  "author": "FlorianBEME",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
