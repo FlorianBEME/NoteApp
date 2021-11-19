@@ -199,8 +199,9 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 
-// const fs = require("fs");
-// import { v4 as uuidv4 } from "uuid";
+const fs = require("fs");
+import { v4 as uuidv4 } from "uuid";
+
 export default {
   name: "Modals",
   components: {
@@ -213,8 +214,9 @@ export default {
   props: {
     open: Boolean,
     reloadData: Function,
-    // data: Object,
+    data: Object,
     openAndClose: Function,
+    path: String,
   },
   data() {
     return {
@@ -223,30 +225,35 @@ export default {
   },
   methods: {
     addNewNote() {
-      // if (this.data.save) {
-      //   if (this.newNote.title.length > 0 && this.newNote.text.length > 0) {
-      //     this.newNote.uuid = uuidv4();
-      //     fs.readFile("./src/data.json", "utf8", (err) => {
-      //       if (err) {
-      //         console.error(err);
-      //         return;
-      //       }
-      //       let dataInJSON = { ...this.data };
-      //       dataInJSON.save.push(this.newNote);
-      //       const dataConvertedJSON = JSON.stringify(dataInJSON);
-      //       fs.writeFileSync("./src/data.json", dataConvertedJSON, (err) => {
-      //         if (err) {
-      //           console.log(err);
-      //           return;
-      //         } else {
-      //           this.reloadData();
-      //         }
-      //       });
-      //       this.newNote = { title: "", text: "", tags: [], uuid: null };
-      //       this.openAndClose();
-      //     });
-      //   }
-      // }
+      console.log(this.path);
+      if (this.data.save) {
+        if (this.newNote.title.length > 0 && this.newNote.text.length > 0) {
+          this.newNote.uuid = uuidv4();
+          fs.readFile(`${this.path}/data.json`, "utf8", (err) => {
+            if (err) {
+              console.error(err);
+              return;
+            }
+            let dataInJSON = { ...this.data };
+            dataInJSON.save.push(this.newNote);
+            const dataConvertedJSON = JSON.stringify(dataInJSON);
+            fs.writeFileSync(`${this.path}/data.json`, dataConvertedJSON, (err) => {
+              if (err) {
+                console.log(err);
+                return;
+              } else {
+                this.reloadData();
+              }
+            });
+            this.newNote = { title: "", text: "", tags: [], uuid: null };
+            this.openAndClose();
+          });
+        }
+      } else {
+        console.log(
+          "Erreur dans l'initialisation du fichier data.json à l'ouverture du programe"
+        );
+      }
     },
   },
 };

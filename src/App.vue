@@ -3,6 +3,8 @@
     :open="isOpen"
     v-on:closemodal="openAndClose()"
     :reloadData="fetchStorage"
+    :data="dataInCurrent"
+    :path="path"
   />
   <div class="fond min-h-screen">
     <Header
@@ -52,6 +54,7 @@ export default {
       dataInCurrent: {},
       isOpen: false,
       dataIsUpdate: false,
+      path: process.cwd(),
     };
   },
   computed: {
@@ -63,56 +66,50 @@ export default {
     },
   },
   mounted() {
+    console.log(process.cwd(), "pathhhhhh");
     this.fetchStorage();
   },
   methods: {
     openAndClose() {
       this.isOpen = !this.isOpen;
     },
+    setCurrentData(data) {
+      console.log("chargement de la data");
+      this.dataInCurrent = { ...JSON.parse(data) };
+    },
+    createNewDataFile() {
+      fs.readFile(`${this.path}/data.json`, "utf8", (err, data) => {
+        if (err) {
+          console.err(err);
+        } else {
+          this.setCurrentData(data);
+        }
+      });
+    },
     fetchStorage() {
-      console.log(this.dataInCurrent);
-      if (existsSync("data.json")) {
-        fs.readFile("./data.json", "utf8", (err, data) => {
+      if (existsSync(`${this.path}/data.json`)) {
+        console.log("Fichier de data trouvé ");
+        fs.readFile(`${this.path}/data.json`, "utf8", (err, data) => {
           if (err) {
             console.err(err);
           } else {
-            this.dataInCurrent = { ...JSON.parse(data) };
+            console.log("Lecture du fichier...");
+            this.setCurrentData(data);
           }
         });
       } else {
-        console.log("no");
+        console.log("Aucun fichier de data trouvé ");
         const template = JSON.stringify({ save: [] });
-
-        fs.appendFile("data.json", template, function (err) {
+        fs.appendFile(`${this.path}/data.json`, template, (err)=> {
           if (err) {
             console.error(err);
             return;
           } else {
-            fs.readFile("./data.json", "utf8", (err, data) => {
-              if (err) {
-                console.err(err);
-              } else {
-                console.log(data);
-              }
-            });
+            console.log("Création d'un nouveau fichier de data");
+            this.createNewDataFile();
           }
         });
       }
-      // fs.readFile("../data.json", "utf8", (err) => {
-      //   if (err) {
-      //     existsSync
-      //     console.error(err);
-      //     console.log("création d'un fichier");
-      //     // const template = JSON.stringify({ save: [{}] });
-      //     // fs.appendFile("data.json", template, function (err) {
-      //     //   if (err);
-      //     //   return;
-      //     // });
-      //   } else {
-      //     console.log("fichier existant");
-      //   }
-      //   // this.dataInCurrent = { ...JSON.parse(data) };
-      // });
     },
   },
 };
