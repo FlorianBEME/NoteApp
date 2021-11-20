@@ -15,23 +15,21 @@
 
 ## A PROPOS DU PROJET
 
-<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
-
 Ce projet permet de pouvoir enregistrer des notes. Je suis parti du constat que j'avais souvent tendance à mettre tout un tas de notes sur des fichiers "bloc-note" à la volée et qu'il était parfois compliqué de m'y retrouver. Du coup, pour pallier à cette problématique, j'ai réalisé ce soft sans grande prétention qui fait uniquement ce dont j'ai besoin.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-### Built With
+### BUILD WITH
 
 - [Electron.js](https://www.electronjs.org/)
 - [Vue.js](https://vuejs.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-### Start project
+### START PROJECT
 
-- npm install 
--npm run electron:serve
+<li> npm install </li>
+<li> npm run electron:serve</li>
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
