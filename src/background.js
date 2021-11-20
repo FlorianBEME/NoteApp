@@ -5,6 +5,11 @@ import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
 
+require("update-electron-app")({
+  repo: "github-FlorianBEME/NoteApp",
+  updateInterval: "1 hour",
+});
+
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
@@ -17,7 +22,6 @@ async function createWindow() {
     name: "Note",
     minWidth: 800,
     width: 800,
-    icon: __dirname + "/assets/image/favicon.ico",
     height: 600,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
@@ -26,6 +30,21 @@ async function createWindow() {
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
     },
   });
+
+  // var menu = Menu.buildFromTemplate([
+  //   {
+  //     label: "Menu",
+  //     submenu: [
+  //       {
+  //         label: "Exit",
+  //         click() {
+  //           app.quit();
+  //         },
+  //       },
+  //     ],
+  //   },
+  // ]);
+  // Menu.setApplicationMenu(menu);
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
