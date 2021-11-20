@@ -19,12 +19,16 @@ Ce projet permet de pouvoir enregistrer des notes. Je suis parti du constat que 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+<!-- BUILD WITH -->
+
 ### BUILD WITH
 
 - [Electron.js](https://www.electronjs.org/)
 - [Vue.js](https://vuejs.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- START PROJECT -->
 
 ### START PROJECT
 
