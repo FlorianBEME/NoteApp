@@ -137,6 +137,17 @@
                           ></textarea>
                         </div>
                       </div>
+                      <Multiselect
+                        v-model="newNote.tags"
+                        mode="tags"
+                        :closeOnSelect="false"
+                        :searchable="true"
+                        :createTag="true"
+                        :options="[
+                          { value: 'flo', label: 'Florian' },
+                          { value: 'lau', label: 'Laurianne' },
+                        ]"
+                      />
                       <div class="flex sm:justify-between sm:flex-row flex-col">
                         <button
                           required
@@ -202,13 +213,15 @@ import {
 const fs = require("fs");
 import { v4 as uuidv4 } from "uuid";
 
+import Multiselect from "@vueform/multiselect";
+
 export default {
   name: "Modals",
   components: {
     Dialog,
     DialogOverlay,
     DialogTitle,
-
+    Multiselect,
     TransitionRoot,
   },
   props: {
@@ -260,7 +273,7 @@ export default {
   },
 };
 </script>
-<style>
+<style src="@vueform/multiselect/themes/default.css">
 .bg-opacity-custom {
   background: rgba(106, 138, 166, 0.25);
   backdrop-filter: blur(76.67px);

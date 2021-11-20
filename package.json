@@ -16,6 +16,7 @@
   "main": "background.js",
   "dependencies": {
     "@headlessui/vue": "^1.4.2",
+    "@vueform/multiselect": "^2.2.0",
     "core-js": "^3.6.5",
     "electron-localstorage": "^1.0.5",
     "electron-storage": "^1.0.7",

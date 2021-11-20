@@ -41,6 +41,10 @@
       </div>
 
       <p class="text-lg font-secondary-font">{{ item.text }}</p>
+
+      <div v-if="item.tags.length > 0" class="mt-5 flex space-x-2">
+        <div v-for="tag in item.tags" :key="tag" class="">{{ tag }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -81,7 +85,6 @@ export default {
                 console.log(err);
                 return;
               } else {
-
                 this.$emit("update");
               }
             }

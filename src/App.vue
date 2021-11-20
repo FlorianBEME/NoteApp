@@ -69,7 +69,7 @@ export default {
       } else {
         return this.dataInCurrent.save.filter(
           (item) =>
-            item.title.includes(this.filterExpr) ||
+            item.title.toLowerCase().includes(this.filterExpr.toLowerCase()) ||
             item.tags.includes(this.filterExpr)
         );
       }
